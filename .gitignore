@@ -1,0 +1,20 @@
+# DistroZSH repository hygiene
+
+# Editors / OS
+.DS_Store
+*.swp
+*~
+
+# Generated previews: ANSI/plain intermediates are disposable, PNGs are kept
+# as the canonical screenshots referenced by the README.
+screenshots/*.ansi
+screenshots/*.txt
+
+# Build / packaging artifacts
+dist/
+*.tar.gz
+
+# Sandbox test homes
+/dzsh-home/
+/tmp/dzsh-home/
+__pycache__/

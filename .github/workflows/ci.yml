@@ -1,0 +1,52 @@
+name: CI
+
+on:
+  push:
+    branches: [ main, master ]
+    paths:
+      - '**.sh'
+      - '**.zsh'
+      - '.github/workflows/ci.yml'
+  pull_request:
+    branches: [ main, master ]
+    paths:
+      - '**.sh'
+      - '**.zsh'
+      - '.github/workflows/ci.yml'
+
+jobs:
+  shellcheck:
+    name: ShellCheck (bash scripts)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install shellcheck
+        run: sudo apt-get update && sudo apt-get install -y shellcheck
+      - name: Run shellcheck
+        run: |
+          shellcheck --shell=bash --severity=warning install.sh uninstall.sh scripts/*.sh
+
+  zsh-syntax:
+    name: ZSH syntax check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install zsh
+        run: sudo apt-get update && sudo apt-get install -y zsh
+      - name: Check zsh files
+        run: |
+          set -e
+          zsh -n init.zsh
+          for f in zsh/*.zsh themes/*.zsh layouts/*.zsh scripts/preview.sh; do
+            zsh -n "$f"
+          done
+
+  preview:
+    name: Preview matrix renders
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install zsh
+        run: sudo apt-get update && sudo apt-get install -y zsh
+      - name: Render every theme x layout
+        run: ./scripts/preview.sh --all --plain
