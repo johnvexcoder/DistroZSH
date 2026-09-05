@@ -1,0 +1,7 @@
+# A Debian derivative that is not in the registry: must fall back to the
+# closest registered parent through ID_LIKE.
+ID="mydistro"
+ID_LIKE="debian ubuntu"
+NAME="My Distro Linux"
+PRETTY_NAME="My Distro Linux 1.0"
+VERSION_ID="1.0"

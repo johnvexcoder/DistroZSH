@@ -16,8 +16,9 @@ assignees: ''
 
 ## Checklist
 
-- [ ] Code is ShellCheck clean (`shellcheck --shell=bash install.sh uninstall.sh scripts/*.sh`)
+- [ ] Code is ShellCheck clean (`make lint`)
 - [ ] ZSH files pass `zsh -n`
+- [ ] Full suite passes (`make check`)
 - [ ] `scripts/make-screenshots.sh` output is unchanged (or intentionally regenerated)
 - [ ] `README.md` / `docs/` updated where relevant
 - [ ] `CHANGELOG.md` updated

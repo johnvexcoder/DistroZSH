@@ -41,3 +41,15 @@
 
 # Location of the history database.
 # DISTROZSH_HISTFILE=~/.zsh_history
+
+# ---------------------------------------------------------------------------
+# Command-not-found handling
+# ---------------------------------------------------------------------------
+#   auto    - distribution handler first, built-in fallback second (default)
+#   distro  - only the distribution's own handler (pkgfile, command-not-found, ...)
+#   builtin - always the built-in fallback (typo suggestions + package hint)
+#   off     - stock zsh behaviour
+# DISTROZSH_COMMAND_NOT_FOUND=auto
+
+# Interactive spell correction for mistyped commands (zsh `setopt correct`).
+# DISTROZSH_COMMAND_CORRECTION=yes

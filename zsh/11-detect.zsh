@@ -69,8 +69,13 @@ _distrozsh_register_distro peppermint         peppermint   peppermint   apt
 # ---------------------------------------------------------------------------
 # os-release parser
 # ---------------------------------------------------------------------------
+# DISTROZSH_OS_RELEASE_FILE may point at a fixture instead of /etc/os-release
+# (used by the test suite).
+# ---------------------------------------------------------------------------
 _distrozsh_parse_os_release() {
     local key value
+    local file="${DISTROZSH_OS_RELEASE_FILE:-/etc/os-release}"
+    [[ -r "$file" ]] || return 0
     while IFS='=' read -r key value; do
         value="${value%\"}"
         value="${value#\"}"
@@ -80,7 +85,7 @@ _distrozsh_parse_os_release() {
             NAME)        DISTROZSH_OS_NAME="$value" ;;
             PRETTY_NAME) DISTROZSH_OS_PRETTY_NAME="$value" ;;
         esac
-    done < /etc/os-release
+    done < "$file"
 }
 
 # ---------------------------------------------------------------------------

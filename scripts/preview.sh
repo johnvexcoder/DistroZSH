@@ -56,7 +56,7 @@ case "${1:-}" in
     --all)
         plain="no"
         [[ "${2:-}" == "--plain" ]] && plain="yes"
-        OUT_DIR="$REPO_DIR/screenshots"
+        OUT_DIR="${DISTROZSH_PREVIEW_OUT_DIR:-$REPO_DIR/screenshots}"
         mkdir -p "$OUT_DIR"
         local theme layout out
         for theme in "${THEMES[@]}"; do

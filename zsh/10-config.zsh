@@ -21,6 +21,8 @@
 : "${DISTROZSH_NEWLINE_BEFORE_PROMPT:=no}"   # print a blank line before the prompt
 : "${DISTROZSH_SET_TITLE:=yes}"              # set the terminal window title
 : "${DISTROZSH_HISTFILE:=$HOME/.zsh_history}" # history database location
+: "${DISTROZSH_COMMAND_NOT_FOUND:=auto}"  # auto | distro | builtin | off
+: "${DISTROZSH_COMMAND_CORRECTION:=yes}"  # zsh interactive spell correction
 
 # ---------------------------------------------------------------------------
 # Debian-style chroot detection (no-op unless /etc/debian_chroot exists)

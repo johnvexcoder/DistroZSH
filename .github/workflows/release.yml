@@ -23,11 +23,20 @@ jobs:
         run: |
           VERSION="${{ steps.version.outputs.VERSION }}"
           mkdir -p dist
-          tar --exclude='.git' --exclude='dist' \
+          tar --exclude='.git' --exclude='dist' --exclude='TASK.md' \
+              --transform="s,^\.,distrozsh-${VERSION}," \
               -czf "dist/distrozsh-${VERSION}.tar.gz" .
+
+      - name: Generate SHA256 checksum
+        run: |
+          cd dist
+          sha256sum distrozsh-*.tar.gz > distrozsh-${{ steps.version.outputs.VERSION }}.sha256
 
       - name: Create GitHub release
         uses: softprops/action-gh-release@v2
         with:
-          files: dist/distrozsh-${{ steps.version.outputs.VERSION }}.tar.gz
+          files: |
+            dist/distrozsh-${{ steps.version.outputs.VERSION }}.tar.gz
+            dist/distrozsh-${{ steps.version.outputs.VERSION }}.sha256
           generate_release_notes: true
+          prerelease: true

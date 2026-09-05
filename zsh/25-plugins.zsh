@@ -95,21 +95,6 @@ fi
 unset -f _distrozsh_source_plugin
 
 # ---------------------------------------------------------------------------
-# Command-not-found handler
-# ---------------------------------------------------------------------------
-# Loaded from whichever location the distribution provides.
-# ---------------------------------------------------------------------------
-for candidate in \
-    /etc/zsh_command_not_found \
-    /usr/share/doc/pkgfile/command_not_found.zsh \
-    /usr/share/zsh/site-functions/command-not-found; do
-    if [[ -r "$candidate" ]]; then
-        source "$candidate"
-        break
-    fi
-done
-
-# ---------------------------------------------------------------------------
 # Misc
 # ---------------------------------------------------------------------------
 # Never let the Python virtualenv indicator override the DistroZSH prompt.

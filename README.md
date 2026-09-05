@@ -23,9 +23,10 @@
 </p>
 
 <p align="center">
+  <a href="https://github.com/johnvexcoder/DistroZSH/actions/workflows/ci.yml"><img src="https://github.com/johnvexcoder/DistroZSH/actions/workflows/ci.yml/badge.svg" alt="CI" /></a>
   <img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License" />
   <img src="https://img.shields.io/badge/zsh-5.9%2B-brightgreen.svg" alt="ZSH 5.9+" />
-  <img src="https://img.shields.io/badge/version-2.0.0-blue.svg" alt="Version" />
+  <img src="https://img.shields.io/badge/version-2.1.0-blue.svg" alt="Version" />
   <img src="https://img.shields.io/badge/shellcheck-passing-brightgreen.svg" alt="ShellCheck" />
   <img src="https://img.shields.io/badge/framework-free-brightgreen.svg" alt="Framework Free" />
 </p>
@@ -106,6 +107,7 @@ DistroZSH is not another Oh My Zsh. There is no framework, no plugin manager, no
 | No Nerd Font requirement | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ |
 | Installs via native package manager | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
 | Fully reversible installer | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| Built-in command-not-found | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
 | Startup time | **ms** | slow | slow | fast | slow | slow |
 
 ---
@@ -120,6 +122,8 @@ DistroZSH is not another Oh My Zsh. There is no framework, no plugin manager, no
 - **Excellent completion** — case-insensitive, colored, menu selection, cached
 - **Smart history** — deduplication, ignore-space, verification, full-history alias
 - **Good key bindings** — Emacs mode, word jumps, `Ctrl+P` to cycle layouts
+- **Smart command-not-found** — built-in fallback with "did you mean?" typo suggestions (Levenshtein distance + adjacent-transposition detection) and distribution package-manager install hints
+- **Interactive typo correction** — optional ZSH spell correction (`CORRECT`), on by default, so `~` becomes `~/`, `git sut` becomes `git stash`, and more
 - **Fast startup** — no subprocesses in the prompt, everything built at load time
 - **Works with any standard monospace font** — Noto Sans Mono, JetBrains Mono, DejaVu Sans Mono, Fira Code
 
@@ -182,6 +186,8 @@ DISTROZSH_SET_TITLE=yes
 | `DISTROZSH_NEWLINE_BEFORE_PROMPT` | `no` | print a blank line before each prompt |
 | `DISTROZSH_SET_TITLE` | `yes` | set the terminal window title to `user@host: dir` |
 | `DISTROZSH_HISTFILE` | `~/.zsh_history` | history database location |
+| `DISTROZSH_COMMAND_NOT_FOUND` | `auto` | `auto`, `distro`, `builtin`, or `off` — how unknown commands are handled |
+| `DISTROZSH_COMMAND_CORRECTION` | `yes` | `yes`/`no` — enable ZSH's interactive spell correction |
 
 See [docs/THEMES.md](docs/THEMES.md) and [docs/LAYOUTS.md](docs/LAYOUTS.md) for the full catalog.
 
@@ -245,9 +251,11 @@ DistroZSH/
 ├── themes/             # per-distribution color palettes
 ├── layouts/            # prompt structure definitions
 ├── scripts/            # distro-detect.sh, preview.sh, screenshot tooling
+├── tests/              # test suite (tests/run.sh) + os-release fixtures
 ├── screenshots/        # generated preview matrix (PNG + ANSI)
 ├── img/                # distribution logos (official + community)
 ├── docs/               # installation, themes, layouts, FAQ
+├── Makefile            # make check / lint / test / preview / install
 └── .github/            # workflows, issue + PR templates
 ```
 

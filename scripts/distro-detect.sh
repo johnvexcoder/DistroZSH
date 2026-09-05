@@ -24,6 +24,9 @@ NAME=""
 PRETTY_NAME=""
 VERSION_ID=""
 
+# Override for tests: point at a fixture instead of the live /etc/os-release.
+OS_RELEASE_FILE="${DISTROZSH_OS_RELEASE_FILE:-/etc/os-release}"
+
 while IFS='=' read -r key value; do
     value="${value%\"}"
     value="${value#\"}"
@@ -34,7 +37,7 @@ while IFS='=' read -r key value; do
         PRETTY_NAME) PRETTY_NAME="$value" ;;
         VERSION_ID)  VERSION_ID="$value" ;;
     esac
-done < /etc/os-release
+done < "$OS_RELEASE_FILE"
 
 # ---------------------------------------------------------------------------
 # DistroZSH registry (ID -> "label theme package-manager")

@@ -75,6 +75,44 @@ DistroZSH deliberately ships no flashy widgets. It favors startup speed,
 readability and a native Linux feel over decoration. Keep it simple — that is
 the point.
 
+## Command not found
+
+### What happens when I mistype a command?
+
+A built-in fallback prints the classic `zsh: command not found:` error, followed by:
+
+- **Did you mean?** — up to five suggestions computed with Levenshtein distance and
+  adjacent-transposition detection (the most common typo, e.g. `gti` → `git`).
+- **A package hint** — "this command may be provided by a package that is not
+  installed. Try: `sudo dnf install <cmd>`" using your distribution's package
+  manager.
+
+On distributions that ship their own handler (`/usr/lib/command-not-found`,
+`pkgfile`, `pk-command-not-found`, `/etc/zsh_command_not_found`), DistroZSH uses
+it automatically and stays out of the way.
+
+### How does typo correction work?
+
+With `DISTROZSH_COMMAND_CORRECTION=yes` (default), ZSH's `setopt correct` runs
+an interactive spelling check before the command-not-found fallback. It lets
+you fix common typos (like `sut` instead of `stash`) inline, and the built-in
+fallback still runs when no correction applies.
+
+### Can I disable typo correction?
+
+Yes. In `~/.config/distrozsh/config.zsh`:
+
+```zsh
+DISTROZSH_COMMAND_CORRECTION=no   # or: off
+```
+
+### How do I disable the command-not-found handler?
+
+Set `DISTROZSH_COMMAND_NOT_FOUND=off` in `config.zsh`. To keep only the
+distribution's native handler, use `DISTROZSH_COMMAND_NOT_FOUND=distro`; to
+always use DistroZSH's built-in fallback, use `builtin`. The default `auto`
+prefers the distribution handler when one exists.
+
 ## Installation
 
 ### Which package managers are supported?

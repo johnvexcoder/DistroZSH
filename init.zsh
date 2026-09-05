@@ -14,7 +14,7 @@
 # =============================================================================
 
 : "${DISTROZSH_HOME:=$HOME/.config/distrozsh}"
-typeset -g DISTROZSH_VERSION="2.0.0"
+typeset -g DISTROZSH_VERSION="2.1.0"
 
 # ---------------------------------------------------------------------------
 # Module loader
@@ -41,5 +41,6 @@ _distrozsh_source_module 22-completion.zsh  # completion
 _distrozsh_source_module 23-keybindings.zsh # key bindings
 _distrozsh_source_module 24-aliases.zsh     # aliases + color support
 _distrozsh_source_module 25-plugins.zsh     # standalone distribution plugins
+_distrozsh_source_module 26-command-not-found.zsh # command-not-found handling
 
 unset -f _distrozsh_source_module

@@ -1,0 +1,6 @@
+# A completely unknown distribution: must fall back to the neutral generic
+# profile with no package manager.
+ID="myunknown"
+NAME="My Unknown Linux"
+PRETTY_NAME="My Unknown Linux 1.0"
+VERSION="1.0"

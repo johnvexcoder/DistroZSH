@@ -47,12 +47,33 @@ discussed first.
 ### Code style
 
 - ShellCheck clean (`shellcheck --shell=bash` for `.sh`, `zsh -n` for `.zsh`).
-- Consistent formatting (two-space indent in bash, four-space in zsh modules).
+- Consistent formatting (two-space indent in bash, four-space in zsh modules,
+  enforced by `.editorconfig`).
 - One concern per module; keep functions small and documented.
 - No new dependencies. Everything must work with native ZSH.
 - No frameworks. Only `zsh-autosuggestions` and `zsh-syntax-highlighting` are
   allowed as plugins, and only when sourced from the distribution package.
 - Update `CHANGELOG.md` with every user-visible change.
+
+### Adding or changing code
+
+Every change that touches shell code must keep the full suite green:
+
+```sh
+make check   # lint + syntax check + test suite
+```
+
+`make check` runs exactly what CI runs: ShellCheck on the bash scripts,
+`zsh -n`/`bash -n` syntax checks on every script, and `./tests/run.sh`. You can
+also run a single test file directly:
+
+```sh
+./tests/run.sh t-command-not-found.zsh
+```
+
+When you change detection behaviour, add a fixture
+(`tests/fixtures/*.os-release`) and a case in `tests/t-detect-engine.zsh` /
+`tests/t-distro-detect-sh.zsh`.
 
 ## Development workflow
 
@@ -66,10 +87,8 @@ cd DistroZSH
 # regenerate the screenshot matrix
 ./scripts/make-screenshots.sh
 
-# validate
-bash -n install.sh uninstall.sh scripts/*.sh
-zsh -n init.zsh zsh/*.zsh themes/*.zsh layouts/*.zsh
-shellcheck --shell=bash install.sh uninstall.sh scripts/*.sh
+# validate (lint + syntax + tests — exactly what CI runs)
+make check
 ```
 
 Test the installer in a sandbox without touching your real configuration:

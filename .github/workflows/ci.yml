@@ -6,13 +6,19 @@ on:
     paths:
       - '**.sh'
       - '**.zsh'
+      - 'tests/**'
       - '.github/workflows/ci.yml'
   pull_request:
     branches: [ main, master ]
     paths:
       - '**.sh'
       - '**.zsh'
+      - 'tests/**'
       - '.github/workflows/ci.yml'
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   shellcheck:
@@ -24,7 +30,7 @@ jobs:
         run: sudo apt-get update && sudo apt-get install -y shellcheck
       - name: Run shellcheck
         run: |
-          shellcheck --shell=bash --severity=warning install.sh uninstall.sh scripts/*.sh
+          shellcheck --shell=bash --severity=warning install.sh uninstall.sh scripts/distro-detect.sh scripts/make-screenshots.sh
 
   zsh-syntax:
     name: ZSH syntax check
@@ -36,10 +42,20 @@ jobs:
       - name: Check zsh files
         run: |
           set -e
-          zsh -n init.zsh
+          zsh -n init.zsh .zshrc config.zsh
           for f in zsh/*.zsh themes/*.zsh layouts/*.zsh scripts/preview.sh; do
-            zsh -n "$f"
+            [ -e "$f" ] && zsh -n "$f"
           done
+
+  tests:
+    name: Test suite
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install zsh
+        run: sudo apt-get update && sudo apt-get install -y zsh
+      - name: Run tests
+        run: ./tests/run.sh
 
   preview:
     name: Preview matrix renders
