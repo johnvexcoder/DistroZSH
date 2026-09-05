@@ -38,6 +38,9 @@ Native command-not-found handling and a first-class developer workflow.
 
 - Distribution detection tolerates a missing/unreadable `/etc/os-release`
   without printing an error.
+- `exec zsh` no longer drops the most recent commands: history is now shared
+  (`setopt share_history`), so every command is appended to `HISTFILE`
+  immediately instead of only on a clean exit.
 
 ## [2.0.0] - 2026-08-04
 
